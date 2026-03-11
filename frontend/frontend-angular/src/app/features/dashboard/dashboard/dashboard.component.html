@@ -1,0 +1,11 @@
+<h2 class="mb-4">Dashboard</h2>
+<div class="row g-3">
+  <div class="col-md-4" *ngFor="let card of cards">
+    <div class="card h-100 shadow-sm">
+      <div class="card-body">
+        <h5>{{ card.title }}</h5>
+        <p class="text-muted mb-0">{{ card.value }}</p>
+      </div>
+    </div>
+  </div>
+</div>

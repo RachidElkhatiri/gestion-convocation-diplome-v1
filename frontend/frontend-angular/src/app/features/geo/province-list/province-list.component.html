@@ -1,0 +1,16 @@
+<div class="d-flex justify-content-between mb-3">
+  <h4>Provinces</h4>
+  <a routerLink="/geo/provinces/new" class="btn btn-primary">Nouvelle province</a>
+</div>
+<table class="table table-striped">
+  <thead><tr><th>Nom</th><th>Code</th><th>Centre</th><th></th></tr></thead>
+  <tbody>
+    <tr *ngFor="let p of provinces">
+      <td>{{ p.nom }}</td><td>{{ p.code }}</td><td>{{ p.centreNom }}</td>
+      <td class="text-end">
+        <a [routerLink]="['/geo/provinces', p.id]" class="btn btn-sm btn-outline-primary me-2">Modifier</a>
+        <button class="btn btn-sm btn-outline-danger" (click)="remove(p.id)">Supprimer</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

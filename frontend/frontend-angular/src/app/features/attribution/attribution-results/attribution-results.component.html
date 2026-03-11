@@ -1,0 +1,15 @@
+<h4 class="mb-3">Résultats d'attribution</h4>
+<div class="row g-3 mb-3">
+  <div class="col-md-6"><div class="card"><div class="card-body"><canvas #provinceChart></canvas></div></div></div>
+  <div class="col-md-6"><div class="card"><div class="card-body"><canvas #centreChart></canvas></div></div></div>
+</div>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead><tr><th>Centre</th><th>Province</th><th>Date</th><th>Catégorie</th><th>Nombre</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let r of results">
+        <td>{{ r.centreNom }}</td><td>{{ r.provinceNom }}</td><td>{{ r.dateConvocation }}</td><td>{{ r.categorie }}</td><td>{{ r.nombreCandidats }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

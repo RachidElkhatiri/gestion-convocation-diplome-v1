@@ -1,0 +1,14 @@
+<div class="card shadow-sm"><div class="card-body">
+  <h4>{{ id ? 'Modifier' : 'Créer' }} Province</h4>
+  <form [formGroup]="form" (ngSubmit)="save()" class="row g-3">
+    <div class="col-md-5"><label>Nom</label><input class="form-control" formControlName="nom"/></div>
+    <div class="col-md-3"><label>Code</label><input class="form-control" formControlName="code"/></div>
+    <div class="col-md-4"><label>Centre</label>
+      <select class="form-select" formControlName="centreId">
+        <option [ngValue]="null">Choisir...</option>
+        <option *ngFor="let c of centres" [ngValue]="c.id">{{ c.nom }}</option>
+      </select>
+    </div>
+    <div class="col-12"><button class="btn btn-success" type="submit">Enregistrer</button></div>
+  </form>
+</div></div>

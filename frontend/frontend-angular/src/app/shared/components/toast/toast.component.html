@@ -1,0 +1,6 @@
+<div class="toast-wrap" *ngIf="toast$ | async as toast">
+  <div class="alert" [ngClass]="toast.type === 'success' ? 'alert-success' : 'alert-danger'" role="alert">
+    {{ toast.text }}
+    <button type="button" class="btn-close float-end" (click)="toastService.clear()"></button>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+<div class="card shadow-sm"><div class="card-body">
+  <h4>{{ id ? 'Modifier' : 'Créer' }} Centre</h4>
+  <form [formGroup]="form" (ngSubmit)="save()" class="row g-3">
+    <div class="col-md-6"><label>Nom</label><input class="form-control" formControlName="nom"/></div>
+    <div class="col-md-3"><label>Capacité journalière</label><input type="number" class="form-control" formControlName="capaciteJournaliere"/></div>
+    <div class="col-md-3"><label>Ville</label><input class="form-control" formControlName="ville"/></div>
+    <div class="col-12"><label>Adresse</label><input class="form-control" formControlName="adresse"/></div>
+    <div class="col-12"><button class="btn btn-success" type="submit">Enregistrer</button></div>
+  </form>
+</div></div>

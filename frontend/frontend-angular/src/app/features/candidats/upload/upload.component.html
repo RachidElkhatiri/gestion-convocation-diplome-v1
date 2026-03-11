@@ -1,0 +1,10 @@
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h4>Import Excel</h4>
+    <input type="file" class="form-control mb-3" (change)="onFileChange($event)" />
+    <div class="d-flex gap-2">
+      <button class="btn btn-primary" (click)="upload()">Uploader</button>
+      <button class="btn btn-outline-success" (click)="transform()">Transformer</button>
+    </div>
+  </div>
+</div>

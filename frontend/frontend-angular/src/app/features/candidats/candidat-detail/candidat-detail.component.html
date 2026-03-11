@@ -1,0 +1,9 @@
+<div class="card shadow-sm" *ngIf="candidat">
+  <div class="card-body">
+    <h4>{{ candidat.nom }} {{ candidat.prenom }}</h4>
+    <p class="mb-1"><strong>CIN:</strong> {{ candidat.cin }}</p>
+    <p class="mb-1"><strong>Province:</strong> {{ candidat.province }}</p>
+    <p class="mb-1"><strong>Centre:</strong> {{ candidat.centre }}</p>
+    <p class="mb-1"><strong>Catégorie:</strong> {{ candidat.categorie }}</p>
+  </div>
+</div>
