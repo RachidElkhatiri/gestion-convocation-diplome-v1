@@ -1,0 +1,37 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: geo-service
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521/XEPDB1
+    username: APP_GCD
+    password: APP_GCD_PWD
+    driver-class-name: oracle.jdbc.OracleDriver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+  cloud:
+    config:
+      enabled: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+eureka:
+  client:
+    enabled: false
+
+logging:
+  level:
+    com.gcd.geo: INFO

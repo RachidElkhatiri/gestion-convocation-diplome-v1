@@ -1,0 +1,59 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: candidat-service-route
+          uri: ${CANDIDAT_SERVICE_URI:http://localhost:8081}
+          predicates:
+            - Path=/api/candidats/**
+        - id: geo-service-route
+          uri: ${GEO_SERVICE_URI:http://localhost:8082}
+          predicates:
+            - Path=/api/centres/**,/api/provinces/**,/api/geo/**
+        - id: attribution-service-route
+          uri: ${ATTRIBUTION_SERVICE_URI:http://localhost:8083}
+          predicates:
+            - Path=/api/attribution/**
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - http://localhost:4200
+              - http://127.0.0.1:4200
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+              - "*"
+            exposedHeaders:
+              - Authorization
+            allowCredentials: true
+            maxAge: 3600
+
+eureka:
+  client:
+    enabled: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+# JWT (future):
+# spring:
+#   cloud:
+#     gateway:
+#       default-filters:
+#         - name: AuthenticationFilter
