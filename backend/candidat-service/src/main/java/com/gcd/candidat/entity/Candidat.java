@@ -1,4 +1,4 @@
-﻿package com.gcd.candidat.entity;
+package com.gcd.candidat.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

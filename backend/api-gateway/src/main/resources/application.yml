@@ -8,17 +8,35 @@ spring:
     gateway:
       routes:
         - id: candidat-service-route
-          uri: ${CANDIDAT_SERVICE_URI:http://localhost:8081}
+          uri: lb://candidat-service
           predicates:
             - Path=/api/candidats/**
+        - id: candidat-service-docs
+          uri: lb://candidat-service
+          predicates:
+            - Path=/v3/api-docs/candidat-service
+          filters:
+            - SetPath=/v3/api-docs
         - id: geo-service-route
-          uri: ${GEO_SERVICE_URI:http://localhost:8082}
+          uri: lb://geo-service
           predicates:
             - Path=/api/centres/**,/api/provinces/**,/api/geo/**
+        - id: geo-service-docs
+          uri: lb://geo-service
+          predicates:
+            - Path=/v3/api-docs/geo-service
+          filters:
+            - SetPath=/v3/api-docs
         - id: attribution-service-route
-          uri: ${ATTRIBUTION_SERVICE_URI:http://localhost:8083}
+          uri: lb://attribution-service
           predicates:
             - Path=/api/attribution/**
+        - id: attribution-service-docs
+          uri: lb://attribution-service
+          predicates:
+            - Path=/v3/api-docs/attribution-service
+          filters:
+            - SetPath=/v3/api-docs
       globalcors:
         add-to-simple-url-handler-mapping: true
         cors-configurations:
@@ -41,15 +59,30 @@ spring:
 
 eureka:
   client:
-    enabled: false
+    enabled: true
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_DEFAULT_ZONE:http://localhost:8761/eureka/}
 
 management:
   endpoints:
     web:
       exposure:
         include: health,info
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: candidat-service
+        url: /v3/api-docs/candidat-service
+      - name: geo-service
+        url: /v3/api-docs/geo-service
+      - name: attribution-service
+        url: /v3/api-docs/attribution-service
 
 # JWT (future):
 # spring:

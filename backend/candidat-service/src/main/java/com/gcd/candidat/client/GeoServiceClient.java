@@ -1,4 +1,4 @@
-﻿package com.gcd.candidat.client;
+package com.gcd.candidat.client;
 
 import com.gcd.candidat.dto.GeoCentreResponse;
 import lombok.RequiredArgsConstructor;

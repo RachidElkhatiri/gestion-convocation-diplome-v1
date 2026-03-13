@@ -1,4 +1,4 @@
-﻿package com.gcd.candidat.dto;
+package com.gcd.candidat.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

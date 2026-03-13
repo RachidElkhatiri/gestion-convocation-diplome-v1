@@ -1,0 +1,144 @@
+services:
+  oracle-db:
+    image: gvenzl/oracle-xe:21-slim-faststart
+    container_name: gcd-oracle-db
+    environment:
+      ORACLE_PASSWORD: ${ORACLE_PASSWORD:?ORACLE_PASSWORD is required}
+      APP_USER: ${APP_USER:-APP_GCD}
+      APP_USER_PASSWORD: ${APP_USER_PASSWORD:?APP_USER_PASSWORD is required}
+    ports:
+      - "1521:1521"
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "echo 'SELECT 1 FROM DUAL;' | sqlplus -s system/$${ORACLE_PASSWORD}@localhost:1521/XEPDB1 | grep -q '1'",
+        ]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 60s
+
+  eureka-server:
+    build:
+      context: ./backend/eureka-server
+      dockerfile: Dockerfile
+    container_name: gcd-eureka-server
+    restart: unless-stopped
+    ports:
+      - "8761:8761"
+
+  config-server:
+    build:
+      context: ./backend/config-server
+      dockerfile: Dockerfile
+    container_name: gcd-config-server
+    restart: unless-stopped
+    ports:
+      - "8888:8888"
+    environment:
+      CONFIG_REPO_PATH: /config-repo
+      EUREKA_DEFAULT_ZONE: http://eureka-server:8761/eureka/
+    volumes:
+      - ./backend/config-repo:/config-repo:ro
+    depends_on:
+      - eureka-server
+
+  geo-service:
+    build:
+      context: ./backend/geo-service
+      dockerfile: Dockerfile
+    container_name: gcd-geo-service
+    restart: unless-stopped
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:oracle:thin:@oracle-db:1521/XEPDB1
+      SPRING_DATASOURCE_USERNAME: ${APP_USER:-APP_GCD}
+      SPRING_DATASOURCE_PASSWORD: ${APP_USER_PASSWORD:?APP_USER_PASSWORD is required}
+      EUREKA_DEFAULT_ZONE: http://eureka-server:8761/eureka/
+    depends_on:
+      oracle-db:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+
+  candidat-service:
+    build:
+      context: ./backend/candidat-service
+      dockerfile: Dockerfile
+    container_name: gcd-candidat-service
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:oracle:thin:@oracle-db:1521/XEPDB1
+      SPRING_DATASOURCE_USERNAME: ${APP_USER:-APP_GCD}
+      SPRING_DATASOURCE_PASSWORD: ${APP_USER_PASSWORD:?APP_USER_PASSWORD is required}
+      APP_GEO_BASE_URL: http://geo-service:8082
+      EUREKA_DEFAULT_ZONE: http://eureka-server:8761/eureka/
+    depends_on:
+      oracle-db:
+        condition: service_healthy
+      geo-service:
+        condition: service_started
+      eureka-server:
+        condition: service_started
+
+  attribution-service:
+    build:
+      context: ./backend/attribution-service
+      dockerfile: Dockerfile
+    container_name: gcd-attribution-service
+    restart: unless-stopped
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:oracle:thin:@oracle-db:1521/XEPDB1
+      SPRING_DATASOURCE_USERNAME: ${APP_USER:-APP_GCD}
+      SPRING_DATASOURCE_PASSWORD: ${APP_USER_PASSWORD:?APP_USER_PASSWORD is required}
+      CLIENTS_CANDIDAT_URL: http://candidat-service:8081
+      CLIENTS_GEO_URL: http://geo-service:8082
+      EUREKA_DEFAULT_ZONE: http://eureka-server:8761/eureka/
+    depends_on:
+      oracle-db:
+        condition: service_healthy
+      candidat-service:
+        condition: service_started
+      geo-service:
+        condition: service_started
+      eureka-server:
+        condition: service_started
+
+  api-gateway:
+    build:
+      context: ./backend/api-gateway
+      dockerfile: Dockerfile
+    container_name: gcd-api-gateway
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      EUREKA_DEFAULT_ZONE: http://eureka-server:8761/eureka/
+    depends_on:
+      - candidat-service
+      - geo-service
+      - attribution-service
+      - eureka-server
+
+  frontend-angular:
+    build:
+      context: ./frontend/frontend-angular
+      dockerfile: Dockerfile
+    container_name: gcd-frontend-angular
+    restart: unless-stopped
+    ports:
+      - "4200:80"
+    depends_on:
+      - api-gateway
+
+volumes:
+  oracle-data:

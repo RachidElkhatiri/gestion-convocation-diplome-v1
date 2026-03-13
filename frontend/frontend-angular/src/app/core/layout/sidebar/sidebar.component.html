@@ -1,8 +1,11 @@
-<aside class="sidebar p-3 text-white">
+﻿<aside class="sidebar p-3 text-white">
   <h5 class="mb-4">Administration</h5>
   <ul class="nav nav-pills flex-column gap-2">
     <li class="nav-item" *ngFor="let link of links">
       <a class="nav-link text-white" routerLinkActive="active" [routerLink]="link.path">{{ link.label }}</a>
+    </li>
+    <li class="nav-item mt-2">
+      <a class="nav-link text-white" [href]="docsUrl" target="_blank" rel="noopener noreferrer">API Docs</a>
     </li>
   </ul>
 </aside>

@@ -1,4 +1,4 @@
-﻿package com.gcd.candidat.controller;
+package com.gcd.candidat.controller;
 
 import com.gcd.candidat.dto.CandidatResponse;
 import com.gcd.candidat.service.CandidatQueryService;
