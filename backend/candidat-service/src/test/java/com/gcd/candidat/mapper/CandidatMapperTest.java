@@ -1,4 +1,4 @@
-﻿package com.gcd.candidat.mapper;
+package com.gcd.candidat.mapper;
 
 import com.gcd.candidat.entity.Candidat;
 import org.junit.jupiter.api.Test;

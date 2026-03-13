@@ -1,4 +1,4 @@
-﻿package com.gcd.candidat.entity;
+package com.gcd.candidat.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

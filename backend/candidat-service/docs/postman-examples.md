@@ -1,4 +1,4 @@
-﻿# Exemples Postman - candidat-service
+# Exemples Postman - candidat-service
 
 ## 1) Import Excel
 - Method: `POST`

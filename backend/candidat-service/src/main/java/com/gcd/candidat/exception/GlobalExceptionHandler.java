@@ -1,4 +1,4 @@
-﻿package com.gcd.candidat.exception;
+package com.gcd.candidat.exception;
 
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-﻿package com.gcd.candidat.service;
+package com.gcd.candidat.service;
 
 import com.gcd.candidat.dto.CandidatResponse;
 import com.gcd.candidat.entity.Candidat;

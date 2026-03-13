@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,7 +9,9 @@ export class SidebarComponent {
   links = [
     { label: 'Dashboard', path: '/dashboard' },
     { label: 'Candidats', path: '/candidats' },
-    { label: 'Géo', path: '/geo' },
+    { label: 'Geo', path: '/geo' },
     { label: 'Attribution', path: '/attribution' }
   ];
+
+  docsUrl = 'http://localhost:8080/swagger-ui.html';
 }

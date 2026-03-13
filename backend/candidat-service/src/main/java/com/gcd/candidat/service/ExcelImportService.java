@@ -1,4 +1,4 @@
-﻿package com.gcd.candidat.service;
+package com.gcd.candidat.service;
 
 import com.gcd.candidat.entity.CandidatGlobal;
 import com.gcd.candidat.exception.BusinessException;

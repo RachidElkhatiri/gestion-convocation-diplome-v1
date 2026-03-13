@@ -1,4 +1,4 @@
-﻿package com.gcd.candidat.dto;
+package com.gcd.candidat.dto;
 
 import lombok.Builder;
 import lombok.Value;

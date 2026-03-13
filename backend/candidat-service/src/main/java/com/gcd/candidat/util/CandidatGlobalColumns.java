@@ -1,4 +1,4 @@
-﻿package com.gcd.candidat.util;
+package com.gcd.candidat.util;
 
 import java.util.List;
 
